@@ -1,0 +1,22 @@
+# beginning of input file
+[MESH]
+
+dx 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0
+dy 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0
+
+element square
+
+# already partially refined to match S5K and QUANDRY results
+# and to use a uniform (square) mesh
+
+map
+3 3 3 3 3 3 3 3 3 3
+3 3 3 3 3 3 3 3 3 3
+3 3 3 3 3 3 3 3 3 3
+2 2 2 1 1 1 1 3 3 3
+2 2 2 1 1 1 1 3 3 3
+2 2 2 1 1 1 1 3 3 3
+2 2 2 1 1 1 1 3 3 3
+3 3 3 2 2 2 2 3 3 3
+3 3 3 2 2 2 2 3 3 3
+3 3 3 2 2 2 2 3 3 3

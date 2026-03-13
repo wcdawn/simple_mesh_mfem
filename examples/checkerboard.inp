@@ -1,0 +1,14 @@
+# beginning of input file
+[MESH]
+
+dx 1 1 1 1 1
+dy 1 1 1 1 1
+
+element square
+
+map
+1 2 1 2 1
+2 1 2 1 2
+1 2 1 2 1
+2 1 2 1 2
+1 2 1 2 1

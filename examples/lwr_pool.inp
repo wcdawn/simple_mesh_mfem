@@ -1,0 +1,13 @@
+# beginning of input file
+[MESH]
+
+dx 18.0 30.0 30.0 18.0
+dy 18.0 25.0 25.0 18.0
+
+element square
+
+map
+5 5 5 5
+5 4 3 5
+5 1 2 5
+5 5 5 5

@@ -1,0 +1,11 @@
+# beginning of input file
+[MESH]
+
+dx 50 50
+dy 50 50
+
+element triangle
+
+map
+1 1
+1 1
