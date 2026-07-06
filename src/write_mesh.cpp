@@ -65,7 +65,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
         break;
       default:
         std::cout << "Invalid geometry type in material map evalution. "
-                     "Mesh not calculated"
+                     "Mesh not written."
                   << std::endl;
         return;
     }
