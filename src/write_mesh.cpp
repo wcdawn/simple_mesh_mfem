@@ -16,20 +16,12 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
 {
   const std::string comment_char = "#";
 
-  const std::string header{
-    std::string{"MFEM mesh v1.0\n"}
-    + "\n"
-    + comment_char + "\n"
-    + comment_char + " MFEM Geometry Types (see mesh/geom.hpp)\n"
-    + comment_char + "\n"
-    + comment_char + " POINT       = 0\n"
-    + comment_char + " SEGMENT     = 1\n"
-    + comment_char + " TRIANGLE    = 2\n"
-    + comment_char + " SQUARE      = 3\n"
-    + comment_char + " TETRAHEDRON = 4\n"
-    + comment_char + " CUBE        = 5\n"
-    + comment_char + " PRISM       = 6\n"
-    + comment_char + "\n"};
+  const std::string header{std::string{"MFEM mesh v1.0\n"} + "\n" + comment_char + "\n" + comment_char
+                           + " MFEM Geometry Types (see mesh/geom.hpp)\n" + comment_char + "\n" + comment_char
+                           + " POINT       = 0\n" + comment_char + " SEGMENT     = 1\n" + comment_char
+                           + " TRIANGLE    = 2\n" + comment_char + " SQUARE      = 3\n" + comment_char
+                           + " TETRAHEDRON = 4\n" + comment_char + " CUBE        = 5\n" + comment_char
+                           + " PRISM       = 6\n" + comment_char + "\n"};
 
   const auto nNode = (nx + 1) * (ny + 1);
   const auto vdim = node[0].size(); // 2 or 3
@@ -63,11 +55,11 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
     size_t jdx{0};
     switch (geo)
     {
-      case Geometry::SQUARE:
+      case (Geometry::SQUARE):
         idx = i % nx;
         jdx = i / nx; // integer division
         break;
-      case Geometry::TRIANGLE:
+      case (Geometry::TRIANGLE):
         idx = (i / 2) % nx;
         jdx = (i / 2) / nx; // integer division
         break;
@@ -77,7 +69,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
                   << std::endl;
         return;
     }
-    f << material_map[jdx][idx] << ' ' << geo;
+    f << material_map[jdx][idx] << ' ' << static_cast<int>(geo);
     for (size_t j{0}; j < nodePerElement; j++)
     {
       f << ' ' << element[i][j];
@@ -91,7 +83,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
   f << nBoundary << '\n';
   for (size_t i{0}; i < nBoundary; i++)
   {
-    f << boundary[i][0] << ' ' << Geometry::SEGMENT;
+    f << boundary[i][0] << ' ' << static_cast<int>(Geometry::SEGMENT);
     for (size_t j{1}; j < 3; j++)
     {
       f << ' ' << boundary[i][j];

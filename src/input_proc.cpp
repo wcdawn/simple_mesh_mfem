@@ -70,21 +70,7 @@ bool Input::parse(const std::string & fname)
     else if (card == "element")
     {
       const std::string element_type{get_card(inp)};
-      if (element_type == "square") // TODO split into a function
-      {
-        geo = Geometry::SQUARE;
-      }
-      else if (element_type == "triangle")
-      {
-        geo = Geometry::TRIANGLE;
-      }
-      else
-      {
-        std::cout << "Invalid value specified on element card.\n"
-                     "element "
-                  << element_type << std::endl;
-        return false;
-      }
+      geo = str2enum_geometry(element_type);
     }
     else if (card == "map")
     {
@@ -144,7 +130,7 @@ void Input::echo(std::ostream & out) const
     out << ' ' << dy[i];
   }
   out << '\n';
-  out << "element = " << geo << '\n';
+  out << "element = " << enum2str(geo) << " " << static_cast<int>(geo) << '\n';
   out << "map\n";
   for (size_t jloop{0}; jloop < ny; jloop++)
   {
@@ -160,6 +146,12 @@ void Input::echo(std::ostream & out) const
 
 bool Input::check() const
 {
+  if (geo == Geometry::INVALID)
+  {
+    std::cerr << "Invalid element type. Unable to parse." << std::endl;
+    throw input_exception{};
+  }
+
   if ((dimension == 2) && ((geo != Geometry::SQUARE) && (geo != Geometry::TRIANGLE)))
   {
     std::cerr << "Invalid element type. "

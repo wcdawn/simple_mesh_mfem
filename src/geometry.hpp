@@ -2,10 +2,11 @@
 #define GEOMETRY
 
 #include <array>
+#include <string>
 #include <unordered_map>
 
 // NOTE: PRISM is a Wedge.
-enum Geometry
+enum class Geometry
 {
   INVALID = -1,
   POINT,
@@ -15,8 +16,10 @@ enum Geometry
   TETRAHEDRON,
   CUBE,
   PRISM,
-  NUM_GEOMETRIES
 };
+
+Geometry str2enum_geometry(const std::string & s);
+std::string enum2str(const Geometry geo);
 
 // Number of nodes per element for given Geometry enum.
 extern const std::unordered_map<Geometry, unsigned int> GeometryNode;
