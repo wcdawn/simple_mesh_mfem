@@ -13,7 +13,7 @@ Although the mesh is rectilinear, the mesh can be generated using quadrilateral 
 
 ## Boundary Conditions
 
-For now, the boundary attributes are hard-wired. You can see `include/geometry.hpp` to change them yourself.
+For now, the boundary attributes are hard-wired. You can see `src/geometry.hpp` to change them yourself.
 ```cpp
 enum Direction
 {
