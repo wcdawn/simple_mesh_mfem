@@ -73,7 +73,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
         return;
     }
     f << material_map[idx + jdx * nx] << ' ' << static_cast<int>(geo);
-    for (size_t j{0}; j < nodePerElement; j++)
+    for (int j{0}; j < nodePerElement; j++)
     {
       f << ' ' << element[i][j];
     }
