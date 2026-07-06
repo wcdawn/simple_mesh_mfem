@@ -19,14 +19,14 @@ class Input
     void echo(std::ostream & out) const;
     bool check() const;
 
-    // TODO add getters
-    // variables should be private to a class and use getters/setters
+    int dimension{2};
     size_t nx{0};
     size_t ny{0};
     std::vector<double> dx;
     std::vector<double> dy;
     Geometry geo{Geometry::SQUARE}; // default to squares
-    std::vector<std::vector<unsigned int>> material_map;
+
+    std::vector<unsigned int> material;
 
     // exceptions
     class input_exception

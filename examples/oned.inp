@@ -1,11 +1,10 @@
-# beginning of input file
 [MESH]
 
+nx 10
 dx 10 10 10 10 10 10 10 10 10 10
-dy 10 10
+ny 0
 
-element triangle
+element segment
 
 map
-1 1 1 1 1 1 1 1 1 1
-1 1 1 1 1 1 1 1 1 1
+2 2 1 1 1 1 1 1 1 1

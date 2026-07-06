@@ -85,7 +85,7 @@ int main(int argc, char ** argv)
   std::cout << "nElement = " << element.size() << std::endl;
   std::cout << "nBoundary = " << boundary.size() << std::endl;
 
-  WriteMesh("generate.mesh", input.geo, input.nx, input.ny, input.material_map, node, element, boundary);
+  WriteMesh("generate.mesh", input.geo, input.dimension, input.nx, input.ny, input.material, node, element, boundary);
 
   std::cout << "end MAIN" << std::endl;
 

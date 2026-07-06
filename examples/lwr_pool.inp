@@ -1,7 +1,9 @@
 # beginning of input file
 [MESH]
 
+nx 4
 dx 18.0 30.0 30.0 18.0
+ny 4
 dy 18.0 25.0 25.0 18.0
 
 element square

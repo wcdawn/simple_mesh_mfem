@@ -12,9 +12,10 @@ void CalcMesh(Geometry geo, size_t nx, size_t ny, const std::vector<double> & dx
               std::vector<std::vector<unsigned int>> & boundary);
 
 std::vector<std::vector<unsigned int>> BoundaryArray(size_t nx, size_t ny);
+std::vector<std::vector<unsigned int>> SegmentBoundaryArray(size_t nx, size_t ny);
 
 std::vector<std::vector<unsigned int>> SquareElementArray(size_t nx, size_t ny);
-
 std::vector<std::vector<unsigned int>> TriangleElementArray(size_t nx, size_t ny);
+std::vector<std::vector<unsigned int>> SegmentElementArray(size_t nx, size_t ny);
 
 #endif

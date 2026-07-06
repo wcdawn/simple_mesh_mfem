@@ -7,28 +7,25 @@
 
 #include "geometry.hpp"
 
-void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, const size_t ny,
-               const std::vector<std::vector<unsigned int>> & material_map,
-               const std::vector<std::vector<double>> & node, const std::vector<std::vector<unsigned int>> & element,
+// TODO actually handle the output format (e.g., scientific notation)
+
+void WriteMesh(const std::string & fname, const Geometry geo, const int dimension, const size_t nx, const size_t ny,
+               const std::vector<unsigned int> & material_map, const std::vector<std::vector<double>> & node,
+               const std::vector<std::vector<unsigned int>> & element,
                const std::vector<std::vector<unsigned int>> & boundary)
 {
   const std::string comment_char = "#";
 
-  const std::string header{
-    "MFEM mesh v1.0\n"
-    "\n" +
-    comment_char +
-    "\n"
-    "# MFEM Geometry Types (see mesh/geom.hpp)\n" +
-    comment_char + "\n" + comment_char + " POINT       = 0\n" + comment_char +
-    " SEGMENT     = 1\n" + comment_char + " TRIANGLE    = 2\n" + comment_char +
-    " SQUARE      = 3\n" + comment_char + " TETRAHEDRON = 4\n" + comment_char +
-    " CUBE        = 5\n" + comment_char + " PRISM       = 6\n" + comment_char +
-    "\n"};
+  const std::string header{std::string{"MFEM mesh v1.0\n"} + "\n" + comment_char + "\n" + comment_char
+                           + " MFEM Geometry Types (see mesh/geom.hpp)\n" + comment_char + "\n" + comment_char
+                           + " POINT       = 0\n" + comment_char + " SEGMENT     = 1\n" + comment_char
+                           + " TRIANGLE    = 2\n" + comment_char + " SQUARE      = 3\n" + comment_char
+                           + " TETRAHEDRON = 4\n" + comment_char + " CUBE        = 5\n" + comment_char
+                           + " PRISM       = 6\n" + comment_char + "\n"};
 
-  const size_t nNode = (nx + 1) * (ny + 1);
-  const size_t vdim = node[0].size(); // 2 or 3
-  const size_t nElement{CalcNElement(geo, nx, ny)};
+  const auto nNode = (nx + 1) * (ny + 1);
+  const auto vdim = node[0].size(); // 2 or 3
+  const auto nElement{CalcNElement(geo, nx, ny)};
   if (nElement == 0)
   {
     std::cout << "Invalid nElement. "
@@ -37,8 +34,8 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
               << "Mesh not written." << std::endl;
     return;
   }
-  const size_t nodePerElement = GeometryNode.at(geo);
-  const size_t nBoundary = 2 * nx + 2 * ny;
+  const auto nodePerElement = GeometryNode.at(geo);
+  const auto nBoundary = boundary.size();
 
   std::ofstream f{fname}; // initializer opens the file
 
@@ -46,7 +43,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
   f << '\n';
 
   f << "dimension\n";
-  f << "2\n"; // only SQUARE and TRIANGLE and both are 2d
+  f << dimension << "\n";
   f << '\n';
 
   // write element
@@ -58,21 +55,25 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
     size_t jdx{0};
     switch (geo)
     {
-      case Geometry::SQUARE:
+      case (Geometry::SQUARE):
         idx = i % nx;
         jdx = i / nx; // integer division
         break;
-      case Geometry::TRIANGLE:
+      case (Geometry::TRIANGLE):
         idx = (i / 2) % nx;
         jdx = (i / 2) / nx; // integer division
         break;
+      case (Geometry::SEGMENT):
+        idx = i;
+        jdx = 0;
+        break;
       default:
         std::cout << "Invalid geometry type in material map evalution. "
-                     "Mesh not calculated"
+                     "Mesh not written."
                   << std::endl;
         return;
     }
-    f << material_map[jdx][idx] << ' ' << geo;
+    f << material_map[idx + jdx * nx] << ' ' << static_cast<int>(geo);
     for (size_t j{0}; j < nodePerElement; j++)
     {
       f << ' ' << element[i][j];
@@ -81,13 +82,30 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
   }
   f << '\n';
 
+  Geometry boundary_type;
+  switch (geo)
+  {
+    case (Geometry::SQUARE):
+      [[fallthrough]];
+    case (Geometry::TRIANGLE):
+      boundary_type = Geometry::SEGMENT;
+      break;
+    case (Geometry::SEGMENT):
+      boundary_type = Geometry::POINT;
+      break;
+    default:
+      std::cout << "Unable to identify the type of the boundary element!"
+                << " Mesh not written." << std::endl;
+      return;
+  }
+
   // write boundary
   f << "boundary\n";
   f << nBoundary << '\n';
   for (size_t i{0}; i < nBoundary; i++)
   {
-    f << boundary[i][0] << ' ' << Geometry::SEGMENT;
-    for (size_t j{1}; j < 3; j++)
+    f << boundary[i][0] << ' ' << static_cast<int>(boundary_type);
+    for (size_t j{1}; j < boundary[i].size(); j++)
     {
       f << ' ' << boundary[i][j];
     }
@@ -110,17 +128,4 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
   }
 
   f.close();
-}
-
-size_t CalcNElement(const Geometry geo, const size_t nx, const size_t ny)
-{
-  switch (geo)
-  {
-    case Geometry::SQUARE:
-      return nx * ny;
-    case Geometry::TRIANGLE:
-      return 2 * nx * ny;
-    default:
-      return 0;
-  }
 }

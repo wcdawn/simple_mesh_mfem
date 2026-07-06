@@ -1,0 +1,13 @@
+# beginning of input file
+[MESH]
+
+nx 10
+dx 10 10 10 10 10 10 10 10 10 10
+ny 2
+dy 10 10
+
+element triangle
+
+map
+1 1 1 1 1 1 1 1 1 1
+1 1 1 1 1 1 1 1 1 1

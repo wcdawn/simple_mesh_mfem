@@ -1,5 +1,7 @@
 [MESH]
+nx 9
 dx 10 20 20 20 20 20 20 20 20
+ny 9
 dy 10 20 20 20 20 20 20 20 20
 
 element triangle

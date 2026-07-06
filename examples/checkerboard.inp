@@ -1,7 +1,9 @@
 # beginning of input file
 [MESH]
 
+nx 5
 dx 1 1 1 1 1
+ny 5
 dy 1 1 1 1 1
 
 element square

@@ -1,7 +1,9 @@
 # beginning of input file
 [MESH]
 
+nx 10
 dx 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0
+ny 10
 dy 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0 8.0
 
 element square
