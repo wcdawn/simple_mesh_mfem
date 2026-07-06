@@ -46,3 +46,18 @@ std::string enum2str(const Geometry geo)
       return "invalid";
   }
 }
+
+size_t CalcNElement(const Geometry geo, const size_t nx, const size_t ny)
+{
+  switch (geo)
+  {
+    case Geometry::SEGMENT:
+      return nx;
+    case Geometry::SQUARE:
+      return nx * ny;
+    case Geometry::TRIANGLE:
+      return 2 * nx * ny;
+    default:
+      return 0;
+  }
+}

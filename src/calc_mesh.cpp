@@ -46,6 +46,8 @@ void CalcMesh(const Geometry geo, const size_t nx, const size_t ny, const std::v
     case Geometry::TRIANGLE:
       element = TriangleElementArray(nx, ny);
       break;
+    case Geometry::SEGMENT:
+      element = SegmentElementArray(nx, ny);
     default:
       std::cout << "Cannot create element array for specified Geometry. Mesh not "
                    "Calculated."
@@ -95,7 +97,7 @@ std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size
 
 std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const size_t ny)
 {
-  std::vector<std::vector<unsigned int>> element(nx * ny,
+  std::vector<std::vector<unsigned int>> element(CalcNElement(Geometry::SQUARE, nx, ny),
                                                  std::vector<unsigned int>(GeometryNode.at(Geometry::SQUARE), 0));
   for (size_t j{0}; j < ny; j++)
   {
@@ -114,7 +116,7 @@ std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const
 
 std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, const size_t ny)
 {
-  std::vector<std::vector<unsigned int>> element(2 * nx * ny,
+  std::vector<std::vector<unsigned int>> element(CalcNElement(Geometry::TRIANGLE, nx, ny),
                                                  std::vector<unsigned int>(GeometryNode.at(Geometry::TRIANGLE), 0));
   for (size_t j{0}; j < ny; j++)
   {
@@ -131,5 +133,15 @@ std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, con
     }
   }
   return element;
+} // TriangleElementArray
 
+std::vector<std::vector<unsigned int>> SegmentElementArray(const size_t nx, const size_t)
+{
+  std::vector<std::vector<unsigned int>> element(CalcNElement(Geometry::SEGMENT, nx, 1),
+                                                 std::vector<unsigned int>(GeometryNode.at(Geometry::SEGMENT), 0));
+  for (size_t i{0}; i < nx; i++)
+  {
+    // TODO
+  }
+  return element;
 } // TriangleElementArray

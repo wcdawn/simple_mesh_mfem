@@ -24,6 +24,8 @@ std::string enum2str(const Geometry geo);
 // Number of nodes per element for given Geometry enum.
 extern const std::unordered_map<Geometry, unsigned int> GeometryNode;
 
+size_t CalcNElement(Geometry geo, size_t nx, size_t ny);
+
 // Direction for boundary conditions
 enum class Direction
 {

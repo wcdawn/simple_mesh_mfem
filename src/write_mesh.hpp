@@ -13,6 +13,4 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
                const std::vector<std::vector<double>> & node, const std::vector<std::vector<unsigned int>> & element,
                const std::vector<std::vector<unsigned int>> & boundary);
 
-size_t CalcNElement(Geometry geo, size_t nx, size_t ny);
-
 #endif
