@@ -15,11 +15,11 @@ Although the mesh is rectilinear, the mesh can be generated using quadrilateral 
 
 For now, the boundary attributes are hard-wired. You can see `src/geometry.hpp` to change them yourself.
 ```cpp
-enum Direction
+enum class Direction
 {
   NORTH = 1,
-  WEST  = 2,
+  WEST = 2,
   SOUTH = 3,
-  EAST  = 4
+  EAST = 4
 };
 ```
