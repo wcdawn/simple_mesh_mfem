@@ -7,7 +7,7 @@
 
 void CalcMesh(const Geometry geo, const size_t nx, const size_t ny, const std::vector<double> & dx,
               const std::vector<double> & dy, std::vector<std::vector<double>> & node,
-              std::vector<std::vector<unsigned int>> & element, std::vector<std::vector<unsigned int>> & boundary)
+              std::vector<std::vector<int>> & element, std::vector<std::vector<int>> & boundary)
 {
   // convert dx to x
   std::vector<double> x(nx + 1, 0.0);
@@ -60,20 +60,20 @@ void CalcMesh(const Geometry geo, const size_t nx, const size_t ny, const std::v
   }
 }
 
-std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size_t ny)
+std::vector<std::vector<int>> BoundaryArray(const size_t nx, const size_t ny)
 {
-  std::vector<std::vector<unsigned int>> boundary(2 * nx + 2 * ny, std::vector<unsigned int>(3, 0));
+  std::vector<std::vector<int>> boundary(2 * nx + 2 * ny, std::vector<int>(3, 0));
   for (size_t i{0}; i < nx; i++)
   {
     const size_t idx = i;
 
     // south
-    boundary[idx][0] = static_cast<unsigned int>(Direction::SOUTH);
+    boundary[idx][0] = static_cast<int>(Direction::SOUTH);
     boundary[idx][1] = i;
     boundary[idx][2] = i + 1;
 
     // north
-    boundary[idx + nx][0] = static_cast<unsigned int>(Direction::NORTH);
+    boundary[idx + nx][0] = static_cast<int>(Direction::NORTH);
     boundary[idx + nx][1] = (nx + 1) * ny + i;
     boundary[idx + nx][2] = (nx + 1) * ny + i + 1;
   }
@@ -84,36 +84,36 @@ std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size
     const size_t idx = i + 2 * nx;
 
     // east
-    boundary[idx][0] = static_cast<unsigned int>(Direction::EAST);
+    boundary[idx][0] = static_cast<int>(Direction::EAST);
     boundary[idx][1] = (nx + 1) * i + nx;
     boundary[idx][2] = (nx + 1) * (i + 1) + nx;
 
     // west
-    boundary[idx + ny][0] = static_cast<unsigned int>(Direction::WEST);
+    boundary[idx + ny][0] = static_cast<int>(Direction::WEST);
     boundary[idx + ny][1] = (nx + 1) * i;
     boundary[idx + ny][2] = (nx + 1) * (i + 1);
   }
   return boundary;
 } // BoundaryArray
 
-std::vector<std::vector<unsigned int>> SegmentBoundaryArray(const size_t nx, const size_t)
+std::vector<std::vector<int>> SegmentBoundaryArray(const size_t nx, const size_t)
 {
-  std::vector<std::vector<unsigned int>> boundary(2, std::vector<unsigned int>(2, 0));
+  std::vector<std::vector<int>> boundary(2, std::vector<int>(2, 0));
   // east and west
   // east
-  boundary[0][0] = static_cast<unsigned int>(Direction::EAST);
+  boundary[0][0] = static_cast<int>(Direction::EAST);
   boundary[0][1] = 0; // NOTE thse are POINT rather than SEGMENT and must be written to the mesh file appropriately!
 
   // west
-  boundary[1][0] = static_cast<unsigned int>(Direction::WEST);
+  boundary[1][0] = static_cast<int>(Direction::WEST);
   boundary[1][1] = nx + 1;
   return boundary;
 } // SegmentBoundaryArray
 
-std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const size_t ny)
+std::vector<std::vector<int>> SquareElementArray(const size_t nx, const size_t ny)
 {
-  std::vector<std::vector<unsigned int>> element(CalcNElement(Geometry::SQUARE, nx, ny),
-                                                 std::vector<unsigned int>(GeometryNode.at(Geometry::SQUARE), 0));
+  std::vector<std::vector<int>> element(CalcNElement(Geometry::SQUARE, nx, ny),
+                                        std::vector<int>(GeometryNode.at(Geometry::SQUARE), 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)
@@ -128,10 +128,10 @@ std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const
   return element;
 } // SquareElementArray
 
-std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, const size_t ny)
+std::vector<std::vector<int>> TriangleElementArray(const size_t nx, const size_t ny)
 {
-  std::vector<std::vector<unsigned int>> element(CalcNElement(Geometry::TRIANGLE, nx, ny),
-                                                 std::vector<unsigned int>(GeometryNode.at(Geometry::TRIANGLE), 0));
+  std::vector<std::vector<int>> element(CalcNElement(Geometry::TRIANGLE, nx, ny),
+                                        std::vector<int>(GeometryNode.at(Geometry::TRIANGLE), 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)
@@ -149,10 +149,10 @@ std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, con
   return element;
 } // TriangleElementArray
 
-std::vector<std::vector<unsigned int>> SegmentElementArray(const size_t nx, const size_t)
+std::vector<std::vector<int>> SegmentElementArray(const size_t nx, const size_t)
 {
-  std::vector<std::vector<unsigned int>> element(CalcNElement(Geometry::SEGMENT, nx, 1),
-                                                 std::vector<unsigned int>(GeometryNode.at(Geometry::SEGMENT), 0));
+  std::vector<std::vector<int>> element(CalcNElement(Geometry::SEGMENT, nx, 1),
+                                        std::vector<int>(GeometryNode.at(Geometry::SEGMENT), 0));
   for (size_t i{0}; i < nx; i++)
   {
     element[i][0] = i;
