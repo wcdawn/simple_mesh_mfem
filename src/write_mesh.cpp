@@ -34,8 +34,8 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
               << "Mesh not written." << std::endl;
     return;
   }
-  const size_t nodePerElement = GeometryNode.at(geo);
-  const size_t nBoundary = 2 * nx + 2 * ny;
+  const auto nodePerElement = GeometryNode.at(geo);
+  const auto nBoundary = boundary.size();
 
   std::ofstream f{fname}; // initializer opens the file
 
@@ -63,6 +63,10 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
         idx = (i / 2) % nx;
         jdx = (i / 2) / nx; // integer division
         break;
+      case (Geometry::SEGMENT):
+        idx = i;
+        jdx = 0;
+        break;
       default:
         std::cout << "Invalid geometry type in material map evalution. "
                      "Mesh not written."
@@ -78,13 +82,30 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
   }
   f << '\n';
 
+  Geometry boundary_type;
+  switch (geo)
+  {
+    case (Geometry::SQUARE):
+      [[fallthrough]];
+    case (Geometry::TRIANGLE):
+      boundary_type = Geometry::SEGMENT;
+      break;
+    case (Geometry::SEGMENT):
+      boundary_type = Geometry::POINT;
+      break;
+    default:
+      std::cout << "Unable to identify the type of the boundary element!"
+                << " Mesh not written." << std::endl;
+      return;
+  }
+
   // write boundary
   f << "boundary\n";
   f << nBoundary << '\n';
   for (size_t i{0}; i < nBoundary; i++)
   {
-    f << boundary[i][0] << ' ' << static_cast<int>(Geometry::SEGMENT);
-    for (size_t j{1}; j < 3; j++)
+    f << boundary[i][0] << ' ' << static_cast<int>(boundary_type);
+    for (size_t j{1}; j < boundary[i].size(); j++)
     {
       f << ' ' << boundary[i][j];
     }

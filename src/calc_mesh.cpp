@@ -42,20 +42,22 @@ void CalcMesh(const Geometry geo, const size_t nx, const size_t ny, const std::v
   {
     case Geometry::SQUARE:
       element = SquareElementArray(nx, ny);
+      boundary = BoundaryArray(nx, ny);
       break;
     case Geometry::TRIANGLE:
       element = TriangleElementArray(nx, ny);
+      boundary = BoundaryArray(nx, ny);
       break;
     case Geometry::SEGMENT:
       element = SegmentElementArray(nx, ny);
+      boundary = SegmentBoundaryArray(nx, ny);
+      break;
     default:
       std::cout << "Cannot create element array for specified Geometry. Mesh not "
                    "Calculated."
                 << std::endl;
       return;
   }
-
-  boundary = BoundaryArray(nx, ny);
 }
 
 std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size_t ny)
@@ -92,8 +94,21 @@ std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size
     boundary[idx + ny][2] = (nx + 1) * (i + 1);
   }
   return boundary;
-
 } // BoundaryArray
+
+std::vector<std::vector<unsigned int>> SegmentBoundaryArray(const size_t nx, const size_t)
+{
+  std::vector<std::vector<unsigned int>> boundary(2, std::vector<unsigned int>(2, 0));
+  // east and west
+  // east
+  boundary[0][0] = static_cast<unsigned int>(Direction::EAST);
+  boundary[0][1] = 0; // TODO thse are POINT rather than SEGMENT and must be written to the mesh file appropriately!
+
+  // west
+  boundary[1][0] = static_cast<unsigned int>(Direction::WEST);
+  boundary[1][1] = nx + 1;
+  return boundary;
+} // SegmentBoundaryArray
 
 std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const size_t ny)
 {
@@ -111,7 +126,6 @@ std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const
     }
   }
   return element;
-
 } // SquareElementArray
 
 std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, const size_t ny)
@@ -141,7 +155,8 @@ std::vector<std::vector<unsigned int>> SegmentElementArray(const size_t nx, cons
                                                  std::vector<unsigned int>(GeometryNode.at(Geometry::SEGMENT), 0));
   for (size_t i{0}; i < nx; i++)
   {
-    // TODO
+    element[i][0] = i;
+    element[i][1] = i + 1;
   }
   return element;
-} // TriangleElementArray
+} // SegmentElementArray
