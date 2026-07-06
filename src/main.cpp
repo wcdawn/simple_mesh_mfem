@@ -14,6 +14,12 @@ void usage(const std::string & exe_name)
   std::cout << exe_name << " <file_name>" << std::endl;
 }
 
+std::string get_stub(const std::string & fname)
+{
+  const auto last{fname.find_last_of('.')};
+  return fname.substr(0, last); // does not include period
+}
+
 int main(int argc, char ** argv)
 {
   std::cout << "start MAIN" << std::endl;
@@ -28,6 +34,9 @@ int main(int argc, char ** argv)
     usage(argv[0]);
     return 1;
   }
+
+  const std::string fname_stub{get_stub(fname)};
+  const std::string fname_mesh{fname_stub + ".mesh"};
 
   Input input; // Note: no initialization function.
   try
@@ -80,7 +89,7 @@ int main(int argc, char ** argv)
   std::cout << "nElement = " << element.size() << std::endl;
   std::cout << "nBoundary = " << boundary.size() << std::endl;
 
-  WriteMesh("generate.mesh", input.geo, input.dimension, input.nx, input.ny, input.material, node, element, boundary);
+  WriteMesh(fname_mesh, input.geo, input.dimension, input.nx, input.ny, input.material, node, element, boundary);
 
   std::cout << "end MAIN" << std::endl;
 
