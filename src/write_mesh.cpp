@@ -1,24 +1,20 @@
 #include "write_mesh.hpp"
 
-#include "geometry.hpp"
-
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <vector>
 
-using namespace std;
+#include "geometry.hpp"
 
-void WriteMesh(const string& fname, const Geometry geo, const size_t nx,
-               const size_t ny,
-               const vector<vector<unsigned int>>& material_map,
-               const vector<vector<double>>& node,
-               const vector<vector<unsigned int>>& element,
-               const vector<vector<unsigned int>>& boundary)
+void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, const size_t ny,
+               const std::vector<std::vector<unsigned int>> & material_map,
+               const std::vector<std::vector<double>> & node, const std::vector<std::vector<unsigned int>> & element,
+               const std::vector<std::vector<unsigned int>> & boundary)
 {
+  const std::string comment_char = "#";
 
-  const string comment_char = "#";
-
-  const string header{
+  const std::string header{
     "MFEM mesh v1.0\n"
     "\n" +
     comment_char +
@@ -31,20 +27,20 @@ void WriteMesh(const string& fname, const Geometry geo, const size_t nx,
     "\n"};
 
   const size_t nNode = (nx + 1) * (ny + 1);
-  const size_t vdim  = node[0].size(); // 2 or 3
+  const size_t vdim = node[0].size(); // 2 or 3
   const size_t nElement{CalcNElement(geo, nx, ny)};
   if (nElement == 0)
   {
-    cout << "Invalid nElement. "
-         << "Likely invalid shape selected. "
-         << "Currently, only SQUARE and TRIANGLE supported. "
-         << "Mesh not written." << endl;
+    std::cout << "Invalid nElement. "
+              << "Likely invalid shape selected. "
+              << "Currently, only SQUARE and TRIANGLE supported. "
+              << "Mesh not written." << std::endl;
     return;
   }
   const size_t nodePerElement = GeometryNode.at(geo);
-  const size_t nBoundary      = 2 * nx + 2 * ny;
+  const size_t nBoundary = 2 * nx + 2 * ny;
 
-  ofstream f{fname}; // initializer opens the file
+  std::ofstream f{fname}; // initializer opens the file
 
   f << header;
   f << '\n';
@@ -71,9 +67,9 @@ void WriteMesh(const string& fname, const Geometry geo, const size_t nx,
         jdx = (i / 2) / nx; // integer division
         break;
       default:
-        cout << "Invalid geometry type in material map evalution. "
-                "Mesh not calculated"
-             << endl;
+        std::cout << "Invalid geometry type in material map evalution. "
+                     "Mesh not calculated"
+                  << std::endl;
         return;
     }
     f << material_map[jdx][idx] << ' ' << geo;
@@ -120,8 +116,11 @@ size_t CalcNElement(const Geometry geo, const size_t nx, const size_t ny)
 {
   switch (geo)
   {
-    case Geometry::SQUARE: return nx * ny;
-    case Geometry::TRIANGLE: return 2 * nx * ny;
-    default: return 0;
+    case Geometry::SQUARE:
+      return nx * ny;
+    case Geometry::TRIANGLE:
+      return 2 * nx * ny;
+    default:
+      return 0;
   }
 }
