@@ -102,7 +102,7 @@ std::vector<std::vector<unsigned int>> SegmentBoundaryArray(const size_t nx, con
   // east and west
   // east
   boundary[0][0] = static_cast<unsigned int>(Direction::EAST);
-  boundary[0][1] = 0; // TODO thse are POINT rather than SEGMENT and must be written to the mesh file appropriately!
+  boundary[0][1] = 0; // NOTE thse are POINT rather than SEGMENT and must be written to the mesh file appropriately!
 
   // west
   boundary[1][0] = static_cast<unsigned int>(Direction::WEST);
