@@ -2,6 +2,7 @@
 #define GEOMETRY
 
 #include <array>
+#include <unordered_map>
 
 // NOTE: PRISM is a Wedge.
 enum Geometry
@@ -18,7 +19,7 @@ enum Geometry
 };
 
 // Number of nodes per element for given Geometry enum.
-constexpr std::array<unsigned int, Geometry::NUM_GEOMETRIES> GeometryNode{1, 2, 3, 4, 4, 8, 6};
+extern const std::unordered_map<Geometry, unsigned int> GeometryNode;
 
 // Direction for boundary conditions
 enum class Direction

@@ -95,7 +95,7 @@ std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size
 
 std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const size_t ny)
 {
-  std::vector<std::vector<unsigned int>> element(nx * ny, std::vector<unsigned int>(GeometryNode[Geometry::SQUARE], 0));
+  std::vector<std::vector<unsigned int>> element(nx * ny, std::vector<unsigned int>(GeometryNode.at(Geometry::SQUARE), 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)
@@ -114,7 +114,7 @@ std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const
 std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, const size_t ny)
 {
   std::vector<std::vector<unsigned int>> element(2 * nx * ny,
-                                                 std::vector<unsigned int>(GeometryNode[Geometry::TRIANGLE], 0));
+                                                 std::vector<unsigned int>(GeometryNode.at(Geometry::TRIANGLE), 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)

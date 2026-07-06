@@ -19,8 +19,7 @@ class Input
     void echo(std::ostream & out) const;
     bool check() const;
 
-    // TODO add getters
-    // variables should be private to a class and use getters/setters
+    int dimension{2};
     size_t nx{0};
     size_t ny{0};
     std::vector<double> dx;

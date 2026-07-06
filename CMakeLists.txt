@@ -6,6 +6,7 @@ add_executable(mesh.x)
 target_sources(mesh.x
   PRIVATE
     src/calc_mesh.cpp
+    src/geometry.cpp
     src/input_proc.cpp
     src/main.cpp
     src/write_mesh.cpp

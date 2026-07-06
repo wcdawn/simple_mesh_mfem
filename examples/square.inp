@@ -1,7 +1,9 @@
 # beginning of input file
 [MESH]
 
+nx 2
 dx 50 50
+ny 2
 dy 50 50
 
 element triangle

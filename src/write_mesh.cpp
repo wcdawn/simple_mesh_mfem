@@ -7,7 +7,9 @@
 
 #include "geometry.hpp"
 
-void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, const size_t ny,
+// TODO actually handle the output format (e.g., scientific notation)
+
+void WriteMesh(const std::string & fname, const Geometry geo, const int dimension, const size_t nx, const size_t ny,
                const std::vector<std::vector<unsigned int>> & material_map,
                const std::vector<std::vector<double>> & node, const std::vector<std::vector<unsigned int>> & element,
                const std::vector<std::vector<unsigned int>> & boundary)
@@ -15,20 +17,23 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
   const std::string comment_char = "#";
 
   const std::string header{
-    "MFEM mesh v1.0\n"
-    "\n" +
-    comment_char +
-    "\n"
-    "# MFEM Geometry Types (see mesh/geom.hpp)\n" +
-    comment_char + "\n" + comment_char + " POINT       = 0\n" + comment_char +
-    " SEGMENT     = 1\n" + comment_char + " TRIANGLE    = 2\n" + comment_char +
-    " SQUARE      = 3\n" + comment_char + " TETRAHEDRON = 4\n" + comment_char +
-    " CUBE        = 5\n" + comment_char + " PRISM       = 6\n" + comment_char +
-    "\n"};
+    std::string{"MFEM mesh v1.0\n"}
+    + "\n"
+    + comment_char + "\n"
+    + comment_char + " MFEM Geometry Types (see mesh/geom.hpp)\n"
+    + comment_char + "\n"
+    + comment_char + " POINT       = 0\n"
+    + comment_char + " SEGMENT     = 1\n"
+    + comment_char + " TRIANGLE    = 2\n"
+    + comment_char + " SQUARE      = 3\n"
+    + comment_char + " TETRAHEDRON = 4\n"
+    + comment_char + " CUBE        = 5\n"
+    + comment_char + " PRISM       = 6\n"
+    + comment_char + "\n"};
 
-  const size_t nNode = (nx + 1) * (ny + 1);
-  const size_t vdim = node[0].size(); // 2 or 3
-  const size_t nElement{CalcNElement(geo, nx, ny)};
+  const auto nNode = (nx + 1) * (ny + 1);
+  const auto vdim = node[0].size(); // 2 or 3
+  const auto nElement{CalcNElement(geo, nx, ny)};
   if (nElement == 0)
   {
     std::cout << "Invalid nElement. "
@@ -46,7 +51,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const size_t nx, c
   f << '\n';
 
   f << "dimension\n";
-  f << "2\n"; // only SQUARE and TRIANGLE and both are 2d
+  f << dimension << "\n";
   f << '\n';
 
   // write element
@@ -116,6 +121,8 @@ size_t CalcNElement(const Geometry geo, const size_t nx, const size_t ny)
 {
   switch (geo)
   {
+    case Geometry::SEGMENT:
+      return nx;
     case Geometry::SQUARE:
       return nx * ny;
     case Geometry::TRIANGLE:

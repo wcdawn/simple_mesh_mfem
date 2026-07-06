@@ -3,10 +3,11 @@
 
 nx 10
 dx 10 10 10 10 10 10 10 10 10 10
-ny 1
-dy 10
+ny 2
+dy 10 10
 
-element segment
+element triangle
 
 map
+1 1 1 1 1 1 1 1 1 1
 1 1 1 1 1 1 1 1 1 1
