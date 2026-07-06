@@ -26,7 +26,7 @@ class Input
     std::vector<double> dy;
     Geometry geo{Geometry::SQUARE}; // default to squares
 
-    std::vector<unsigned int> material;
+    std::vector<int> material;
 
     // exceptions
     class input_exception
