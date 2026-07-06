@@ -1,5 +1,6 @@
 #include "input_proc.hpp"
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -44,6 +45,7 @@ bool Input::parse(const std::string & fname)
     else if (card == "nx")
     {
       inp >> nx;
+      dx.reserve(nx);
     }
     else if (card == "dx")
     {
@@ -57,6 +59,7 @@ bool Input::parse(const std::string & fname)
     else if (card == "ny")
     {
       inp >> ny;
+      dy.reserve(ny);
     }
     else if (card == "dy")
     {
@@ -75,13 +78,14 @@ bool Input::parse(const std::string & fname)
     else if (card == "map")
     {
       // NOTE: comments are not allowed amid/among maps!
-      material_map.resize(ny, std::vector<unsigned int>(nx));
-      for (size_t jloop{0}; jloop < ny; ++jloop)
+      const size_t loopmax{std::max(ny, size_t{1})};
+      material.resize(nx * loopmax);
+      for (size_t jloop{0}; jloop < loopmax; ++jloop)
       {
         const size_t j{ny - 1 - jloop};
         for (size_t i{0}; i < nx; ++i)
         {
-          inp >> material_map[j][i];
+          inp >> material[i + j * nx];
         }
       }
     }
@@ -132,13 +136,14 @@ void Input::echo(std::ostream & out) const
   out << '\n';
   out << "element = " << enum2str(geo) << " " << static_cast<int>(geo) << '\n';
   out << "map\n";
-  for (size_t jloop{0}; jloop < ny; jloop++)
+  const size_t loopmax{std::max(ny, size_t{1})};
+  for (size_t jloop{0}; jloop < loopmax; jloop++)
   {
     const size_t j{ny - 1 - jloop};
-    out << material_map[j][0];
+    out << material[0 + j * nx];
     for (size_t i{1}; i < nx; i++)
     {
-      out << ' ' << material_map[j][i];
+      out << ' ' << material[i + j * nx];
     }
     out << '\n';
   }
@@ -166,11 +171,9 @@ bool Input::check() const
               << std::endl;
     throw input_exception{};
   }
-  if ((geo == Geometry::SEGMENT) && (ny != 1))
+  if ((geo == Geometry::SEGMENT) && (ny != 0))
   {
-    std::cerr << "SEGMENT elements must be specified with an ny of exactly one!\n"
-                 "This can be done by specifying a single, arbitrary value for dy."
-              << std::endl;
+    std::cerr << "SEGMENT elements must be specified with an ny of exactly zero!\n" << std::endl;
     throw input_exception{};
   }
 

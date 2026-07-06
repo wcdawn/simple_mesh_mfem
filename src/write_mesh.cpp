@@ -10,8 +10,8 @@
 // TODO actually handle the output format (e.g., scientific notation)
 
 void WriteMesh(const std::string & fname, const Geometry geo, const int dimension, const size_t nx, const size_t ny,
-               const std::vector<std::vector<unsigned int>> & material_map,
-               const std::vector<std::vector<double>> & node, const std::vector<std::vector<unsigned int>> & element,
+               const std::vector<unsigned int> & material_map, const std::vector<std::vector<double>> & node,
+               const std::vector<std::vector<unsigned int>> & element,
                const std::vector<std::vector<unsigned int>> & boundary)
 {
   const std::string comment_char = "#";
@@ -69,7 +69,7 @@ void WriteMesh(const std::string & fname, const Geometry geo, const int dimensio
                   << std::endl;
         return;
     }
-    f << material_map[jdx][idx] << ' ' << static_cast<int>(geo);
+    f << material_map[idx + jdx * nx] << ' ' << static_cast<int>(geo);
     for (size_t j{0}; j < nodePerElement; j++)
     {
       f << ' ' << element[i][j];
