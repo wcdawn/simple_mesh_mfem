@@ -1,34 +1,29 @@
 #include <cstddef>
 #include <iostream>
+#include <string>
 #include <vector>
-
-#ifdef DEBUG
-#include <fenv.h>
-#endif
 
 #include "calc_mesh.hpp"
 #include "geometry.hpp"
 #include "input_proc.hpp"
 #include "write_mesh.hpp"
 
-using namespace std;
-
-void usage(const string & exe_name)
+void usage(const std::string & exe_name)
 {
-  cout << "Usage:\n";
-  cout << exe_name << " <file_name>" << endl;
+  std::cout << "Usage:\n";
+  std::cout << exe_name << " <file_name>" << std::endl;
 }
 
 int main(int argc, char ** argv)
 {
 #ifdef DEBUG
   feenableexcept(FE_INVALID | FE_OVERFLOW | FE_DIVBYZERO);
-  cout << "DEBUG" << endl;
+  std::cout << "DEBUG" << std::endl;
 #endif
 
-  cout << "start MAIN" << endl;
+  std::cout << "start MAIN" << std::endl;
 
-  string fname;
+  std::string fname;
   if (argc == 2)
   {
     fname = argv[1];
@@ -46,16 +41,16 @@ int main(int argc, char ** argv)
   }
   catch (Input::input_exception)
   {
-    cerr << "Input parsing error." << endl;
+    std::cerr << "Input parsing error." << std::endl;
     return 1;
   }
   catch (...)
   {
-    cerr << "Unknown input parsing error." << endl;
+    std::cerr << "Unknown input parsing error." << std::endl;
     return 2;
   }
 
-  input.echo(cout);
+  input.echo(std::cout);
 
   try
   {
@@ -63,12 +58,12 @@ int main(int argc, char ** argv)
   }
   catch (Input::input_exception)
   {
-    cerr << "Invalid input value." << endl;
+    std::cerr << "Invalid input value." << std::endl;
     return 1;
   }
   catch (...)
   {
-    cerr << "Unknown input checking error." << endl;
+    std::cerr << "Unknown input checking error." << std::endl;
     return 2;
   }
 
@@ -76,23 +71,23 @@ int main(int argc, char ** argv)
 
   if (nElement == 0)
   {
-    cout << "Invalid nElement." << endl;
+    std::cout << "Invalid nElement." << std::endl;
     return 1;
   }
 
-  vector<vector<double>> node;
-  vector<vector<unsigned int>> element;
-  vector<vector<unsigned int>> boundary;
+  std::vector<std::vector<double>> node;
+  std::vector<std::vector<unsigned int>> element;
+  std::vector<std::vector<unsigned int>> boundary;
 
   CalcMesh(input.geo, input.nx, input.ny, input.dx, input.dy, node, element, boundary);
 
-  cout << "nNode = " << node.size() << endl;
-  cout << "nElement = " << element.size() << endl;
-  cout << "nBoundary = " << boundary.size() << endl;
+  std::cout << "nNode = " << node.size() << std::endl;
+  std::cout << "nElement = " << element.size() << std::endl;
+  std::cout << "nBoundary = " << boundary.size() << std::endl;
 
   WriteMesh("generate.mesh", input.geo, input.nx, input.ny, input.material_map, node, element, boundary);
 
-  cout << "end MAIN" << endl;
+  std::cout << "end MAIN" << std::endl;
 
   return 0;
 }

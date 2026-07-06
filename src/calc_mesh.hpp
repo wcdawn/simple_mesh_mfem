@@ -7,16 +7,14 @@
 
 #include "geometry.hpp"
 
-using namespace std;
+void CalcMesh(Geometry geo, size_t nx, size_t ny, const std::vector<double> & dx, const std::vector<double> & dy,
+              std::vector<std::vector<double>> & node, std::vector<std::vector<unsigned int>> & element,
+              std::vector<std::vector<unsigned int>> & boundary);
 
-void CalcMesh(Geometry geo, size_t nx, size_t ny, const vector<double> & dx, const vector<double> & dy,
-              vector<vector<double>> & node, vector<vector<unsigned int>> & element,
-              vector<vector<unsigned int>> & boundary);
+std::vector<std::vector<unsigned int>> BoundaryArray(size_t nx, size_t ny);
 
-vector<vector<unsigned int>> BoundaryArray(size_t nx, size_t ny);
+std::vector<std::vector<unsigned int>> SquareElementArray(size_t nx, size_t ny);
 
-vector<vector<unsigned int>> SquareElementArray(size_t nx, size_t ny);
-
-vector<vector<unsigned int>> TriangleElementArray(size_t nx, size_t ny);
+std::vector<std::vector<unsigned int>> TriangleElementArray(size_t nx, size_t ny);
 
 #endif

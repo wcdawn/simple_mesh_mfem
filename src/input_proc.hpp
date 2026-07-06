@@ -6,29 +6,27 @@
 
 #include "geometry.hpp"
 
-using namespace std;
-
 class Input
 {
   private: // Cannot be inherited. Otherwise, use protected.
 
     bool init{false};
-    static bool skip_line(string & line);
+    static bool skip_line(std::string & line);
 
   public:
 
-    bool parse(const string & fname);
-    void echo(ostream & out) const;
+    bool parse(const std::string & fname);
+    void echo(std::ostream & out) const;
     bool check() const;
 
     // TODO add getters
     // variables should be private to a class and use getters/setters
     size_t nx{0};
     size_t ny{0};
-    vector<double> dx;
-    vector<double> dy;
+    std::vector<double> dx;
+    std::vector<double> dy;
     Geometry geo{Geometry::SQUARE}; // default to squares
-    vector<vector<unsigned int>> material_map;
+    std::vector<std::vector<unsigned int>> material_map;
 
     // exceptions
     class input_exception
