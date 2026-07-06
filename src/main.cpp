@@ -16,11 +16,6 @@ void usage(const std::string & exe_name)
 
 int main(int argc, char ** argv)
 {
-#ifdef DEBUG
-  feenableexcept(FE_INVALID | FE_OVERFLOW | FE_DIVBYZERO);
-  std::cout << "DEBUG" << std::endl;
-#endif
-
   std::cout << "start MAIN" << std::endl;
 
   std::string fname;
