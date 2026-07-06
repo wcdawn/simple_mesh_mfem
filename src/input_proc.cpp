@@ -82,7 +82,7 @@ bool Input::parse(const std::string & fname)
       material.resize(nx * loopmax);
       for (size_t jloop{0}; jloop < loopmax; ++jloop)
       {
-        const size_t j{ny - 1 - jloop};
+        const size_t j{loopmax - 1 - jloop};
         for (size_t i{0}; i < nx; ++i)
         {
           inp >> material[i + j * nx];
@@ -139,7 +139,7 @@ void Input::echo(std::ostream & out) const
   const size_t loopmax{std::max(ny, size_t{1})};
   for (size_t jloop{0}; jloop < loopmax; jloop++)
   {
-    const size_t j{ny - 1 - jloop};
+    const size_t j{loopmax - 1 - jloop};
     out << material[0 + j * nx];
     for (size_t i{1}; i < nx; i++)
     {
