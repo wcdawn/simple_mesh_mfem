@@ -76,8 +76,8 @@ int main(int argc, char ** argv)
   }
 
   std::vector<std::vector<double>> node;
-  std::vector<std::vector<unsigned int>> element;
-  std::vector<std::vector<unsigned int>> boundary;
+  std::vector<std::vector<int>> element;
+  std::vector<std::vector<int>> boundary;
 
   CalcMesh(input.geo, input.nx, input.ny, input.dx, input.dy, node, element, boundary);
 
