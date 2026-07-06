@@ -1,17 +1,16 @@
 #include "input_proc.hpp"
 
-#include "geometry.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <vector>
 
+#include "geometry.hpp"
+
 using namespace std;
 
-bool Input::parse(const string& fname)
+bool Input::parse(const string & fname)
 {
-
   bool good{false};
 
   string card;
@@ -33,13 +32,13 @@ bool Input::parse(const string& fname)
     }
     else if (card == "dx")
     {
-      for (double this_dx{0.0}; line >> this_dx; )
+      for (double this_dx{0.0}; line >> this_dx;)
         dx.push_back(this_dx);
       nx = dx.size();
     }
     else if (card == "dy")
     {
-      for (double this_dy{0.0}; line >> this_dy; )
+      for (double this_dy{0.0}; line >> this_dy;)
         dy.push_back(this_dy);
       ny = dy.size();
     }
@@ -67,7 +66,6 @@ bool Input::parse(const string& fname)
       material_map.resize(ny, vector<unsigned int>(nx));
       for (size_t jloop{0}; jloop < ny; ++jloop)
       {
-
         const size_t j{ny - 1 - jloop};
 
         // get a new line from input (make sure to allow for blank lines and
@@ -98,7 +96,7 @@ bool Input::parse(const string& fname)
   return good;
 } // Input::parse
 
-void Input::echo(ostream& out) const
+void Input::echo(ostream & out) const
 {
   out << "nx = " << nx << '\n';
   out << "dx =";
@@ -159,7 +157,7 @@ bool Input::check() const
   return true;
 } // Input::check_input
 
-bool Input::skip_line(string& line)
+bool Input::skip_line(string & line)
 {
   const char comment_char = '#';
 

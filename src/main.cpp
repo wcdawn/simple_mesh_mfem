@@ -13,13 +13,13 @@
 
 using namespace std;
 
-void usage(const string& exe_name)
+void usage(const string & exe_name)
 {
   cout << "Usage:\n";
   cout << exe_name << " <file_name>" << endl;
 }
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
 #ifdef DEBUG
   feenableexcept(FE_INVALID | FE_OVERFLOW | FE_DIVBYZERO);
@@ -84,15 +84,13 @@ int main(int argc, char** argv)
   vector<vector<unsigned int>> element;
   vector<vector<unsigned int>> boundary;
 
-  CalcMesh(input.geo, input.nx, input.ny, input.dx, input.dy, node, element,
-           boundary);
+  CalcMesh(input.geo, input.nx, input.ny, input.dx, input.dy, node, element, boundary);
 
   cout << "nNode = " << node.size() << endl;
   cout << "nElement = " << element.size() << endl;
   cout << "nBoundary = " << boundary.size() << endl;
 
-  WriteMesh("generate.mesh", input.geo, input.nx, input.ny, input.material_map,
-            node, element, boundary);
+  WriteMesh("generate.mesh", input.geo, input.nx, input.ny, input.material_map, node, element, boundary);
 
   cout << "end MAIN" << endl;
 

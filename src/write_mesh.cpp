@@ -1,21 +1,17 @@
 #include "write_mesh.hpp"
 
-#include "geometry.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <vector>
 
+#include "geometry.hpp"
+
 using namespace std;
 
-void WriteMesh(const string& fname, const Geometry geo, const size_t nx,
-               const size_t ny,
-               const vector<vector<unsigned int>>& material_map,
-               const vector<vector<double>>& node,
-               const vector<vector<unsigned int>>& element,
-               const vector<vector<unsigned int>>& boundary)
+void WriteMesh(const string & fname, const Geometry geo, const size_t nx, const size_t ny,
+               const vector<vector<unsigned int>> & material_map, const vector<vector<double>> & node,
+               const vector<vector<unsigned int>> & element, const vector<vector<unsigned int>> & boundary)
 {
-
   const string comment_char = "#";
 
   const string header{
@@ -31,7 +27,7 @@ void WriteMesh(const string& fname, const Geometry geo, const size_t nx,
     "\n"};
 
   const size_t nNode = (nx + 1) * (ny + 1);
-  const size_t vdim  = node[0].size(); // 2 or 3
+  const size_t vdim = node[0].size(); // 2 or 3
   const size_t nElement{CalcNElement(geo, nx, ny)};
   if (nElement == 0)
   {
@@ -42,7 +38,7 @@ void WriteMesh(const string& fname, const Geometry geo, const size_t nx,
     return;
   }
   const size_t nodePerElement = GeometryNode.at(geo);
-  const size_t nBoundary      = 2 * nx + 2 * ny;
+  const size_t nBoundary = 2 * nx + 2 * ny;
 
   ofstream f{fname}; // initializer opens the file
 
@@ -120,8 +116,11 @@ size_t CalcNElement(const Geometry geo, const size_t nx, const size_t ny)
 {
   switch (geo)
   {
-    case Geometry::SQUARE: return nx * ny;
-    case Geometry::TRIANGLE: return 2 * nx * ny;
-    default: return 0;
+    case Geometry::SQUARE:
+      return nx * ny;
+    case Geometry::TRIANGLE:
+      return 2 * nx * ny;
+    default:
+      return 0;
   }
 }
