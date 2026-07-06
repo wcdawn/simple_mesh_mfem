@@ -64,12 +64,12 @@ std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size
     const size_t idx = i;
 
     // south
-    boundary[idx][0] = Direction::SOUTH;
+    boundary[idx][0] = static_cast<int>(Direction::SOUTH);
     boundary[idx][1] = i;
     boundary[idx][2] = i + 1;
 
     // north
-    boundary[idx + nx][0] = Direction::NORTH;
+    boundary[idx + nx][0] = static_cast<int>(Direction::NORTH);
     boundary[idx + nx][1] = (nx + 1) * ny + i;
     boundary[idx + nx][2] = (nx + 1) * ny + i + 1;
   }
@@ -80,12 +80,12 @@ std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size
     const size_t idx = i + 2 * nx;
 
     // east
-    boundary[idx][0] = Direction::EAST;
+    boundary[idx][0] = static_cast<int>(Direction::EAST);
     boundary[idx][1] = (nx + 1) * i + nx;
     boundary[idx][2] = (nx + 1) * (i + 1) + nx;
 
     // west
-    boundary[idx + ny][0] = Direction::WEST;
+    boundary[idx + ny][0] = static_cast<int>(Direction::WEST);
     boundary[idx + ny][1] = (nx + 1) * i;
     boundary[idx + ny][2] = (nx + 1) * (i + 1);
   }

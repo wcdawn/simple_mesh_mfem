@@ -21,7 +21,7 @@ enum Geometry
 constexpr std::array<unsigned int, Geometry::NUM_GEOMETRIES> GeometryNode{1, 2, 3, 4, 4, 8, 6};
 
 // Direction for boundary conditions
-enum Direction
+enum class Direction
 {
   NORTH = 1,
   WEST = 2,
