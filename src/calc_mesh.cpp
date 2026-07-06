@@ -1,29 +1,23 @@
 #include "calc_mesh.hpp"
 
-#include "geometry.hpp"
-
-#include <array>
 #include <iostream>
 #include <vector>
 
-using namespace std;
+#include "geometry.hpp"
 
-void CalcMesh(const Geometry geo, const size_t nx, const size_t ny,
-              const vector<double>& dx, const vector<double>& dy,
-              vector<vector<double>>& node,
-              vector<vector<unsigned int>>& element,
-              vector<vector<unsigned int>>& boundary)
+void CalcMesh(const Geometry geo, const size_t nx, const size_t ny, const std::vector<double> & dx,
+              const std::vector<double> & dy, std::vector<std::vector<double>> & node,
+              std::vector<std::vector<unsigned int>> & element, std::vector<std::vector<unsigned int>> & boundary)
 {
-
   // convert dx to x
-  vector<double> x(nx + 1, 0.0);
+  std::vector<double> x(nx + 1, 0.0);
   for (size_t i{1}; i < nx + 1; i++)
   {
     x[i] = x[i - 1] + dx[i - 1];
   }
 
   // convert dy to y
-  vector<double> y(ny + 1, 0.0);
+  std::vector<double> y(ny + 1, 0.0);
   for (size_t i{1}; i < ny + 1; i++)
   {
     y[i] = y[i - 1] + dy[i - 1];
@@ -46,23 +40,25 @@ void CalcMesh(const Geometry geo, const size_t nx, const size_t ny,
 
   switch (geo)
   {
-    case Geometry::SQUARE: element = SquareElementArray(nx, ny); break;
-    case Geometry::TRIANGLE: element = TriangleElementArray(nx, ny); break;
+    case Geometry::SQUARE:
+      element = SquareElementArray(nx, ny);
+      break;
+    case Geometry::TRIANGLE:
+      element = TriangleElementArray(nx, ny);
+      break;
     default:
-      cout << "Cannot create element array for specified Geometry. Mesh not "
-              "Calculated."
-           << endl;
+      std::cout << "Cannot create element array for specified Geometry. Mesh not "
+                   "Calculated."
+                << std::endl;
       return;
   }
 
   boundary = BoundaryArray(nx, ny);
 }
 
-vector<vector<unsigned int>> BoundaryArray(const size_t nx, const size_t ny)
+std::vector<std::vector<unsigned int>> BoundaryArray(const size_t nx, const size_t ny)
 {
-
-  vector<vector<unsigned int>> boundary(2 * nx + 2 * ny,
-                                        vector<unsigned int>(3, 0));
+  std::vector<std::vector<unsigned int>> boundary(2 * nx + 2 * ny, std::vector<unsigned int>(3, 0));
   for (size_t i{0}; i < nx; i++)
   {
     const size_t idx = i;
@@ -97,12 +93,9 @@ vector<vector<unsigned int>> BoundaryArray(const size_t nx, const size_t ny)
 
 } // BoundaryArray
 
-vector<vector<unsigned int>> SquareElementArray(const size_t nx,
-                                                const size_t ny)
+std::vector<std::vector<unsigned int>> SquareElementArray(const size_t nx, const size_t ny)
 {
-
-  vector<vector<unsigned int>> element(
-    nx * ny, vector<unsigned int>(GeometryNode[Geometry::SQUARE], 0));
+  std::vector<std::vector<unsigned int>> element(nx * ny, std::vector<unsigned int>(GeometryNode[Geometry::SQUARE], 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)
@@ -118,12 +111,10 @@ vector<vector<unsigned int>> SquareElementArray(const size_t nx,
 
 } // SquareElementArray
 
-vector<vector<unsigned int>> TriangleElementArray(const size_t nx,
-                                                  const size_t ny)
+std::vector<std::vector<unsigned int>> TriangleElementArray(const size_t nx, const size_t ny)
 {
-
-  vector<vector<unsigned int>> element(
-    2 * nx * ny, vector<unsigned int>(GeometryNode[Geometry::TRIANGLE], 0));
+  std::vector<std::vector<unsigned int>> element(2 * nx * ny,
+                                                 std::vector<unsigned int>(GeometryNode[Geometry::TRIANGLE], 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)

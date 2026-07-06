@@ -1,22 +1,19 @@
 #include "input_proc.hpp"
 
-#include "geometry.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <vector>
 
-using namespace std;
+#include "geometry.hpp"
 
-bool Input::parse(const string& fname)
+bool Input::parse(const std::string & fname)
 {
-
   bool good{false};
 
-  string card;
-  string line_string;
-  ifstream inp{fname};
+  std::string card;
+  std::string line_string;
+  std::ifstream inp{fname};
 
   while (getline(inp, line_string))
   {
@@ -24,7 +21,7 @@ bool Input::parse(const string& fname)
     {
       continue;
     } // skip blank lines and comments
-    stringstream line{line_string};
+    std::stringstream line{line_string};
     line >> card;
 
     if (card == "[MESH]")
@@ -33,13 +30,13 @@ bool Input::parse(const string& fname)
     }
     else if (card == "dx")
     {
-      for (double this_dx{0.0}; line >> this_dx; )
+      for (double this_dx{0.0}; line >> this_dx;)
         dx.push_back(this_dx);
       nx = dx.size();
     }
     else if (card == "dy")
     {
-      for (double this_dy{0.0}; line >> this_dy; )
+      for (double this_dy{0.0}; line >> this_dy;)
         dy.push_back(this_dy);
       ny = dy.size();
     }
@@ -56,18 +53,17 @@ bool Input::parse(const string& fname)
       }
       else
       {
-        cout << "Invalid value specified on element card.\n"
-                "element "
-             << card << endl;
+        std::cout << "Invalid value specified on element card.\n"
+                     "element "
+                  << card << std::endl;
         return false;
       }
     }
     else if (card == "map")
     {
-      material_map.resize(ny, vector<unsigned int>(nx));
+      material_map.resize(ny, std::vector<unsigned int>(nx));
       for (size_t jloop{0}; jloop < ny; ++jloop)
       {
-
         const size_t j{ny - 1 - jloop};
 
         // get a new line from input (make sure to allow for blank lines and
@@ -77,7 +73,7 @@ bool Input::parse(const string& fname)
         {
           continue;
         } // skip blank lines and comments
-        stringstream line{line_string};
+        std::stringstream line{line_string};
 
         for (size_t i{0}; i < nx; ++i)
         {
@@ -87,9 +83,9 @@ bool Input::parse(const string& fname)
     }
     else
     {
-      cerr << "Unknown card specified.\n"
-              "First unknown card: *"
-           << card << "*" << endl;
+      std::cerr << "Unknown card specified.\n"
+                   "First unknown card: *"
+                << card << "*" << std::endl;
       throw input_exception{};
     }
   }
@@ -98,7 +94,7 @@ bool Input::parse(const string& fname)
   return good;
 } // Input::parse
 
-void Input::echo(ostream& out) const
+void Input::echo(std::ostream & out) const
 {
   out << "nx = " << nx << '\n';
   out << "dx =";
@@ -132,9 +128,9 @@ bool Input::check() const
 {
   if (!((geo == Geometry::SQUARE) || (geo == Geometry::TRIANGLE)))
   {
-    cerr << "Invalid element type. "
-            "Currently, only SQUARE and TRIANGLE are supported."
-         << endl;
+    std::cerr << "Invalid element type. "
+                 "Currently, only SQUARE and TRIANGLE are supported."
+              << std::endl;
     throw input_exception{};
   }
 
@@ -142,7 +138,7 @@ bool Input::check() const
   {
     if (dx[i] < 0.0)
     {
-      cerr << "Negative dx value." << endl;
+      std::cerr << "Negative dx value." << std::endl;
       throw input_exception{};
     }
   }
@@ -151,7 +147,7 @@ bool Input::check() const
   {
     if (dy[i] < 0.0)
     {
-      cerr << "Negative dy value." << endl;
+      std::cerr << "Negative dy value." << std::endl;
       throw input_exception{};
     }
   }
@@ -159,7 +155,7 @@ bool Input::check() const
   return true;
 } // Input::check_input
 
-bool Input::skip_line(string& line)
+bool Input::skip_line(std::string & line)
 {
   const char comment_char = '#';
 
