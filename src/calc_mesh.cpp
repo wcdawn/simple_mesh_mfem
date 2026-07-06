@@ -113,7 +113,7 @@ std::vector<std::vector<int>> SegmentBoundaryArray(const size_t nx, const size_t
 std::vector<std::vector<int>> SquareElementArray(const size_t nx, const size_t ny)
 {
   std::vector<std::vector<int>> element(CalcNElement(Geometry::SQUARE, nx, ny),
-                                                 std::vector<int>(GeometryNode.at(Geometry::SQUARE), 0));
+                                        std::vector<int>(GeometryNode.at(Geometry::SQUARE), 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)
@@ -131,7 +131,7 @@ std::vector<std::vector<int>> SquareElementArray(const size_t nx, const size_t n
 std::vector<std::vector<int>> TriangleElementArray(const size_t nx, const size_t ny)
 {
   std::vector<std::vector<int>> element(CalcNElement(Geometry::TRIANGLE, nx, ny),
-                                                 std::vector<int>(GeometryNode.at(Geometry::TRIANGLE), 0));
+                                        std::vector<int>(GeometryNode.at(Geometry::TRIANGLE), 0));
   for (size_t j{0}; j < ny; j++)
   {
     for (size_t i{0}; i < nx; i++)
@@ -152,7 +152,7 @@ std::vector<std::vector<int>> TriangleElementArray(const size_t nx, const size_t
 std::vector<std::vector<int>> SegmentElementArray(const size_t nx, const size_t)
 {
   std::vector<std::vector<int>> element(CalcNElement(Geometry::SEGMENT, nx, 1),
-                                                 std::vector<int>(GeometryNode.at(Geometry::SEGMENT), 0));
+                                        std::vector<int>(GeometryNode.at(Geometry::SEGMENT), 0));
   for (size_t i{0}; i < nx; i++)
   {
     element[i][0] = i;
