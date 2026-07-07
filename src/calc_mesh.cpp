@@ -106,7 +106,7 @@ std::vector<std::vector<int>> SegmentBoundaryArray(const size_t nx, const size_t
 
   // west
   boundary[1][0] = 2;
-  boundary[1][1] = nx + 1;
+  boundary[1][1] = nx;
   return boundary;
 } // SegmentBoundaryArray
 
